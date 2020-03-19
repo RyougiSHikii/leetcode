@@ -5,7 +5,7 @@ package algorithm;
  */
 public class Trie {
 
-    private TrieNode parent = new TrieNode('/');
+    private AcNode root = new AcNode('/');
 
     /**
      * 插入字符串
@@ -15,26 +15,27 @@ public class Trie {
     public void insert(String str) {
         char[] chars = str.toCharArray();
 
-        TrieNode node = parent;
-        for (char c : chars) {
-            int index = c - 'a';
+        AcNode node = root;
+        for (int i = 0; i < chars.length; i++) {
+            int index = chars[i] - 'a';
             if (node.children[index] == null) {
-                node.children[index] = new TrieNode(c);
+                node.children[index] = new AcNode(chars[i], i + 1);
             }
             node = node.children[index];
         }
+
         node.isEndChar = true;
     }
 
     /**
-     * 查找字符串
+     * 查找字符串是否在树中存在
      *
      * @param str
      */
     public boolean find(String str) {
         char[] chars = str.toCharArray();
 
-        TrieNode node = parent;
+        AcNode node = root;
         for (char c : chars) {
             int index = c - 'a';
             if (node.children[index] == null) {
@@ -42,24 +43,11 @@ public class Trie {
             }
             node = node.children[index];
         }
-        if (node.isEndChar) {
-            return true;
-        } else {
-            return false;
-        }
+
+        return node.isEndChar;
     }
 
-
-    public static class TrieNode {
-        public char val;
-        public boolean isEndChar = false;
-        public TrieNode[] children = new TrieNode[26];
-        public TrieNode failure;
-
-        public TrieNode(char val) {
-            this.val = val;
-        }
+    public AcNode getRoot() {
+        return root;
     }
-
-
 }

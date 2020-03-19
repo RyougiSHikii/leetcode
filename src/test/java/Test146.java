@@ -1,6 +1,5 @@
 import org.junit.Test;
 import solution.Code146;
-import solution.Code146_2;
 import solution.Code146_3;
 
 /**
