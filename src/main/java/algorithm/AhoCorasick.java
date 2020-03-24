@@ -19,6 +19,10 @@ public class AhoCorasick {
 
     private Trie trie = new Trie();
 
+    /**
+     * 插入模式船
+     * @param patterns
+     */
     public void insert(List<String> patterns) {
         for (String pattern : patterns) {
             if (StringUtils.isEmpty(pattern)) {
@@ -26,9 +30,10 @@ public class AhoCorasick {
             }
             trie.insert(pattern);
         }
+        buildFailurePointer();
     }
 
-    public void buildFailurePointer() {
+    private void buildFailurePointer() {
         AcNode p = trie.getRoot();
 
         Queue<AcNode> queue = new LinkedList<>();

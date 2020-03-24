@@ -11,7 +11,7 @@ package algorithm;
 public class AcNode {
     public char val;
     public boolean isEndChar = false;
-    public AcNode[] children = new AcNode[26];
+    public AcNode[] children = new AcNode[58];
     public AcNode failure;
     public int length;
 
