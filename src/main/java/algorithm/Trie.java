@@ -17,7 +17,7 @@ public class Trie {
 
         AcNode node = root;
         for (int i = 0; i < chars.length; i++) {
-            int index = chars[i] - 'a';
+            int index = chars[i] - '/';
             if (node.children[index] == null) {
                 node.children[index] = new AcNode(chars[i], i + 1);
             }
@@ -37,7 +37,7 @@ public class Trie {
 
         AcNode node = root;
         for (char c : chars) {
-            int index = c - 'a';
+            int index = c - '/';
             if (node.children[index] == null) {
                 return false;
             }

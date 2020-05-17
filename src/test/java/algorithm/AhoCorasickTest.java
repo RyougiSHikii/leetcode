@@ -19,12 +19,12 @@ public class AhoCorasickTest {
         AhoCorasick ahoCorasick = new AhoCorasick();
 //        String[] patterns = {"abcd", "bcd", "c", "bce"};
         String[] patterns = {"good", "happy", "script", "html", "go", "g", "cri"};
-        ahoCorasick.insert(Arrays.asList(patterns));
+        ahoCorasick.insert(Arrays.asList(patterns).iterator());
 
 //        ahoCorasick.match("this is a good day, i am very happy, script  not script html5 is fine");
+        System.out.println('A' - '/');
+        System.out.println('A' - '>');
         System.out.println('z' - '/');
-        System.out.println('z' - '>');
-        System.out.println('z' - 'A');
         System.out.println((int) 'A' + "A");
         System.out.println((int) 'a' + "a");
         System.out.println((int) 'Z' + "Z");

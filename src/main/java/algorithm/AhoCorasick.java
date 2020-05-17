@@ -2,8 +2,8 @@ package algorithm;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 /**
@@ -21,10 +21,12 @@ public class AhoCorasick {
 
     /**
      * 插入模式船
+     *
      * @param patterns
      */
-    public void insert(List<String> patterns) {
-        for (String pattern : patterns) {
+    public void insert(Iterator<String> patterns) {
+        while (patterns.hasNext()) {
+            String pattern = patterns.next();
             if (StringUtils.isEmpty(pattern)) {
                 continue;
             }
@@ -47,7 +49,7 @@ public class AhoCorasick {
 
                 AcNode q = p.failure;
                 while (q != null) {
-                    AcNode qc = q.children[pc.val - 'a'];
+                    AcNode qc = q.children[pc.val - '/'];
                     if (qc == null) {
                         q = q.failure;
                     } else {
@@ -63,14 +65,27 @@ public class AhoCorasick {
         }
     }
 
-    public void match(String text) {
+    public MatchResult match(String text) {
+        return match(text, null, null);
+    }
+
+    public MatchResult match(String text, Integer start) {
+        return match(text, start, null);
+    }
+
+    public MatchResult match(String text, Integer start, String pattern) {
+
         char[] chars = text.toCharArray();
 
         AcNode root = trie.getRoot();
         AcNode node = trie.getRoot();
-        for (int i = 0; i < chars.length; i++) {
-            int index = chars[i] - 'a';
-            if (index < 0 || index > 26) {
+
+        int i = start == null ? 0 : start;
+
+        for (; i < chars.length; i++) {
+            int index = chars[i] - '/';
+            if (index < 0 || index > 75) {
+                node = root;
                 continue;
             }
             while (node.children[index] == null && node != root) {
@@ -84,11 +99,18 @@ public class AhoCorasick {
             AcNode tmp = node;
             while (tmp != root) {
                 if (tmp.isEndChar) {
-                    int start = i - tmp.length + 1;
-                    System.out.println(text.substring(start, start + tmp.length));
+                    int matchIndex = i - tmp.length + 1;
+                    String match = text.substring(matchIndex, matchIndex + tmp.length);
+                    //当pattern不为空时需要匹配
+                    if (pattern != null && !pattern.equals(match)) {
+                        tmp = tmp.failure;
+                        continue;
+                    }
+                    return new MatchResult(matchIndex, match);
                 }
                 tmp = tmp.failure;
             }
         }
+        return null;
     }
 }
